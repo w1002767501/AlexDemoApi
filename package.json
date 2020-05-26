@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^3.0.0",
+    "bluebird": "^3.7.2",
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
     "koa-combine-routers": "^4.0.2",
@@ -26,6 +27,7 @@
     "koa-static": "^5.0.0",
     "moment": "^2.26.0",
     "nodemailer": "^6.4.6",
+    "redis": "^3.0.2",
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
