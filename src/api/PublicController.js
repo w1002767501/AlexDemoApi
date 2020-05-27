@@ -1,4 +1,5 @@
 import svgCaptcha from 'svg-captcha'
+import { getValue, setValue } from '../config/RedisConfig'
 
 class PublicController {
   constructor() {}
@@ -13,7 +14,8 @@ class PublicController {
       width: 150,
       height: 50,
     })
-    console.log(newCaptcha)
+    // 保存验证码数据 设置超时时间 单位：s
+    setValue(body.sid, newCaptcha.text, 10 * 60)
     ctx.body = {
       code: 200,
       data: newCaptcha.data,

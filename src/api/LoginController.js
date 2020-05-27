@@ -1,5 +1,8 @@
 import send from '../config/MailCongig'
 import moment from 'moment'
+import jsonwebtoken from 'jsonwebtoken'
+import config from '../config'
+import { checkCode } from '../common/Utils'
 
 class LoginController {
   constructor() {}
@@ -18,6 +21,39 @@ class LoginController {
         msg: '邮件发送成功',
       }
     } catch (e) {}
+  }
+
+  async login(ctx) {
+    // 接收用户的数据
+    const { body } = ctx.request
+    let sid = body.sid
+    let code = body.code
+    // 验证图片验证码的时效性 正确性
+    if (checkCode(sid, code)) {
+      // 验证账号密码的正确性
+      console.log('ok')
+      if (true) {
+        // 验证通过 返回token
+        console.log('hello login')
+        let token = jsonwebtoken.sign({ _id: 'xz' }, config.JWT_SECRET, {
+          expiresIn: '1d',
+        })
+        ctx.body = {
+          code: 200,
+          token: token,
+        }
+      } else {
+        ctx.body = {
+          code: 404,
+          msg: '用户名或密码错误',
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 401,
+        msg: '图片验证码不正确',
+      }
+    }
   }
 }
 export default new LoginController()
