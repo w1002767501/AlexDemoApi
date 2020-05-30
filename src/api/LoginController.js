@@ -3,6 +3,7 @@ import moment from 'moment'
 import jsonwebtoken from 'jsonwebtoken'
 import config from '../config'
 import { checkCode } from '../common/Utils'
+import User from '../model/User'
 
 class LoginController {
   constructor() {}
@@ -31,8 +32,12 @@ class LoginController {
     // 验证图片验证码的时效性 正确性
     if (checkCode(sid, code)) {
       // 验证账号密码的正确性
-      console.log('ok')
-      if (true) {
+      let checkUserPassword = false
+      let user = await User.findOne({ username: body.username })
+      if (user.password === body.password) {
+        checkUserPassword = true
+      }
+      if (checkUserPassword) {
         // 验证通过 返回token
         console.log('hello login')
         let token = jsonwebtoken.sign({ _id: 'xz' }, config.JWT_SECRET, {
